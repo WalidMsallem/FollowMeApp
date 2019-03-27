@@ -1,56 +1,50 @@
-var express = require("express");
-var Image = require("../../models/image");
-var ImageRouter = express.Router();
+let express = require("express");
+let router = express.Router();
+let ImageSchema = require("../../models/image");
+const { ObjectID } = require("mongodb");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "/uploads/");
-  },
+  destination: "./public/images",
   filename: function(req, file, cb) {
-    cb(null, Date.now() + FileList.orginalname);
+    cb(null, Math.floor(Math.random() * 100) + file.originalname);
+    // console.log("reqqqq ", req);
   }
 });
-
-const fileFilter = (req, file, cb) => {
-  if (file.mometype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true);
-  } else {
-    // reject storing a file
-    cb(null, false);
-  }
-};
 
 const upload = multer({
   storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
+  limits: { fileSize: 9999999999999999999999999999 }
+}).single("postImage");
+
+router.post("/post/img", function(req, res) {
+  upload(req, res, err => {
+    // console.log("Request ---", req.body);
+    // console.log("Request file ---", req.file.filename); //Here you get file.
+    // /*Now do where ever you want to do*/
+    // console.log("Request ---", req.file.filename);
+
+    if (err) return res.status(500).send(err);
+    else {
+      return res.status(200).send(req.file.filename);
+    }
+  });
 });
-/* stores image in uploads folder 
-ussing multer and creates a  reference to the file */
 
-ImageRouter.route("/uploadmulter").post(
-  upload.single("imageData"),
-  (req, res, next) => {
-    // console.log(req);
-    const newImage = new Image({
-      imageName: req.body.imageName,
-      imageData: req.file.path
-    });
+router.post("/post/:id", (req, res) => {
+  // console.log(req.body);
+  let index = ObjectID(req.params.id);
+  Post.findOne({ _id: index }).then(img => {
+    img.image.push(req.body.image);
 
-    newImage
+    img
       .save()
-      .then(result => {
-        console.log(result);
-        res.status(200).json({
-          success: true,
-          document: result
-        });
-      })
-      .catch(err => next(err));
-  }
-);
+      .then(img => res.json(img))
+      .catch(err => console.log(err));
+    console.log(profisssssssssssssle);
+    // console.log(img.image);
+    // console.log(req.body.image);
+  });
+});
 
-module.exports = ImageRouter;
+module.exports = router;

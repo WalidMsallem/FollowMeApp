@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+
 const passport = require("passport");
+const { ObjectID } = require("mongodb");
 
 // Post model
 const Post = require("../../models/Post");
@@ -21,6 +22,18 @@ router.get("/test", (req, res) => res.json({ msg: "Posts Works" }));
 // @access  Public
 router.get("/", (req, res) => {
   Post.find()
+    .sort({ date: -1 })
+    .then(posts => res.json(posts))
+    .catch(err => res.status(404).json({ nopostsfound: "No posts found" }));
+});
+
+// @route   GET api/posts
+// @desc    Get posts by creator
+// @access  Public
+router.get("/userPost/:id", (req, res) => {
+  // console.log(req.user);
+  let index = ObjectID(req.params.id);
+  Post.find({ user: index })
     .sort({ date: -1 })
     .then(posts => res.json(posts))
     .catch(err => res.status(404).json({ nopostsfound: "No posts found" }));
@@ -118,6 +131,39 @@ router.post(
   }
 );
 
+// @route   POST api/posts/partiper/:id
+// @desc     post partiper
+// @access  Private
+router.post(
+  "/participer/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.user.id);
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      Post.findById(req.params.id)
+        .then(post => {
+          if (
+            post.participer.filter(part => part.user.toString() === req.user.id)
+              .length > 0
+          ) {
+            return res.status(400).json({
+              alreadyparticiper: "User already particper to this post"
+            });
+          }
+
+          // Add user id to particper array
+          post.participer.unshift({
+            user: req.user.id,
+            handle: profile.handle,
+            numero: profile.numero
+          });
+
+          post.save().then(post => res.json(post));
+        })
+        .catch(err => res.status(404).json({ postnotfound: "No post found" }));
+    });
+  }
+);
 // @route   POST api/posts/unlike/:id
 // @desc    Unlike post
 // @access  Private

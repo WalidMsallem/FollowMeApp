@@ -14,11 +14,9 @@ const PostSchema = new Schema({
   name: {
     type: String
   },
-  image: [
-    {
-      type: String
-    }
-  ],
+  image: {
+    type: [String]
+  },
   avatar: {
     type: String
   },
@@ -30,6 +28,20 @@ const PostSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: "users"
+      }
+    }
+  ],
+  participer: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      numero: {
+        type: String
+      },
+      handle: {
+        type: String
       }
     }
   ],

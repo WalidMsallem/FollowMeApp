@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import { deletePost, addLike, removeLike } from "../../actions/postActions";
+import {
+  deletePost,
+  addLike,
+  removeLike,
+  getPosts,
+  addParticpe,
+  getCeatedPost
+} from "../../actions/postActions";
 
 // import card */
 import { withStyles } from "@material-ui/core/styles";
@@ -19,8 +26,30 @@ import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+
 import GridList from "./slider";
+import axios from "axios";
+
+import Modal from "@material-ui/core/Modal";
+import Button from "@material-ui/core/Button";
+import { green } from "@material-ui/core/colors";
+
+/* modal */
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  };
+}
+/* fin modal */
 
 /** fin card  */
 
@@ -49,11 +78,27 @@ const styles = theme => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  paper: {
+    position: "absolute",
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: "none"
   }
 });
 
 class PostItem extends Component {
-  state = { expanded: false };
+  state = { expanded: false, open: false, file: null, image: null };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -69,6 +114,9 @@ class PostItem extends Component {
   onUnlikeClick(id) {
     this.props.removeLike(id);
   }
+  onParticperClick(id) {
+    this.props.addParticpe(id);
+  }
 
   findUserLike(likes) {
     const { auth } = this.props;
@@ -78,6 +126,61 @@ class PostItem extends Component {
       return false;
     }
   }
+  /* upload images */
+  onChangeImage = e => {
+    this.setState({
+      file: e.target.files[0],
+      image: e.target.files[0].name
+    });
+  };
+
+  handleAddevent = async () => {
+    const { file } = this.state;
+
+    const formData = new FormData();
+    formData.append("postImage", this.state.file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    };
+    if (file !== null) {
+      return axios
+        .post("/api/image/post/img", formData, config)
+        .then(response => {
+          // alert("The file is successfullly uploadsd" , formData);
+          this.setState(
+            {
+              image: response.data
+            },
+            () => {
+              axios
+                .post(`/api/image/post/${this.props.post._id}`, {
+                  image: response.data
+                })
+                .then(res => {
+                  return this.props.getPosts();
+                })
+                .catch(e => alert("error add event "));
+            }
+          );
+        })
+        .catch(error => {
+          alert("error image upload");
+        });
+    }
+  };
+
+  /*fin upload */
+  test = () => {
+    const { auth } = this.props;
+    console.log(auth.user.id);
+    this.props.getCeatedPost(auth.user.id);
+    // axios
+    //   .get("/api/posts/userPost")
+    //   .then(console.log("ok"))
+    //   .catch(console.log("not done"));
+  };
 
   render() {
     const { post, auth, showActions } = this.props;
@@ -110,9 +213,21 @@ class PostItem extends Component {
           </div>
         </div>
         {/* <span className="text-center">{post.name}</span> */}
-        <GridList />
+        <GridList tabImg={post.image} />
         <CardContent>
           <Typography component="p">
+            {showActions ? (
+              <span>
+                <button
+                  onClick={this.onParticperClick.bind(this, post._id)}
+                  type="button"
+                  className="btn btn-light mr-1"
+                >
+                  participer
+                </button>{" "}
+              </span>
+            ) : null}
+
             {showActions ? (
               <span>
                 <button
@@ -139,6 +254,48 @@ class PostItem extends Component {
                 </Link>
               </span>
             ) : null}
+            {post.user === auth.user.id ? (
+              <span>
+                <Button onClick={this.handleOpen} style={{ color: " green" }}>
+                  Ajouter des images
+                </Button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                >
+                  <div style={getModalStyle()} className={classes.paper}>
+                    <Typography variant="h6" id="modal-title">
+                      Text in a modal
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      id="simple-modal-description"
+                    >
+                      <input
+                        type="file"
+                        name={this.state.image}
+                        onChange={this.onChangeImage}
+                        className="inputfile"
+                      />
+
+                      <button
+                        onClick={this.handleAddevent}
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                          width: "25%"
+                        }}
+                        variant="contained"
+                      >
+                        appliquer
+                      </button>
+                    </Typography>
+                  </div>
+                </Modal>
+              </span>
+            ) : null}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
@@ -163,7 +320,7 @@ class PostItem extends Component {
           <CardContent>
             <Typography paragraph>
               {post.text}
-              <Link to={`/profile/${post.name}`}>ssssssssss</Link>
+              {/* <button onClick={this.test}>test test test</button> */}
             </Typography>
           </CardContent>
         </Collapse>
@@ -178,7 +335,10 @@ PostItem.defaultProps = {
 
 PostItem.propTypes = {
   deletePost: PropTypes.func.isRequired,
+  getPosts: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
+  addParticpe: PropTypes.func.isRequired,
+  getCeatedPost: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -193,5 +353,5 @@ const Post = withStyles(styles)(PostItem);
 
 export default connect(
   mapStateToProps,
-  { deletePost, addLike, removeLike }
+  { deletePost, addLike, removeLike, getPosts, addParticpe, getCeatedPost }
 )(Post);

@@ -21,9 +21,11 @@ const ProfileSchema = new Schema({
   location: {
     type: String
   },
+  numero: {
+    type: String
+  },
   status: {
-    type: String,
-    required: true
+    type: String
   },
   birthDay: {
     type: Date

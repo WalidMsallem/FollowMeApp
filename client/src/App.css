@@ -69,9 +69,11 @@ img {
 }
 .landing input {
   background-color: transparent;
+  color: white;
 }
 .landing input:focus {
   background-color: transparent;
+  color: white;
 }
 .landing small {
   color: black;

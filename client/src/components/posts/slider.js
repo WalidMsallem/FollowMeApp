@@ -36,43 +36,18 @@ const styles = theme => ({
  * import image from 'path/to/image.jpg';
  * [etc...]
  **/
-const tileData = [
-  {
-    img: "https://images8.alphacoders.com/618/618469.jpg",
-    title: "Image",
-    author: "author"
-  },
-  {
-    img:
-      " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv4xLDe87MHve6Oy3tL1ktQmXE5nsJi2qZ52TXV1FLCae5n-lV",
-    title: "Image",
-    author: "author"
-  },
-  {
-    img:
-      "https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?cs=srgb&dl=bench-carved-stones-cemetery-257360.jpg&fm=jpg",
-    title: "Image",
-    author: "author"
-  },
-  {
-    img:
-      "https://cdn.pixabay.com/photo/2017/12/29/18/47/nature-3048299_960_720.jpg",
-    title: "Image",
-    author: "author"
-  }
-];
 
 function SingleLineGridList(props) {
-  const { classes } = props;
+  const { classes, tabImg } = props;
 
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
-        {tileData.map(tile => (
+        {tabImg.map(tile => (
           <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
+            <img src={`http://localhost:5000/${tile}`} alt="event" />
             <GridListTileBar
-              title={tile.title}
+              title="event"
               classes={{
                 root: classes.titleBar,
                 title: classes.title

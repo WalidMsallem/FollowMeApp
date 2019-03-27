@@ -30,43 +30,44 @@ router.post("/up", function(req, res) {
     }
   });
 });
+// old post chemain  //
+// router.post("/uplo", function(req, res) {
+//   upload(req, res, err => {
+//     console.log("Request ---", req.body);
+//     console.log("Request file ---", req.file); //Here you get file.
+//     /*Now do where ever you want to do*/
+//     console.log("Request ---", req.body.name);
 
-router.get("/g", (req, res) => {
-  image
-    .find()
-    .then(src => {
-      res.json({ src });
-    })
-    .catch(e => {
-      res.status(400).send(e);
-    });
-});
+//     if (err) return res.status(500).send(err);
+//   });
+//   let img = new ImageSchema(
+//     {
+//       image: req.body.image
+//     },
+//     { _id: false }
+//   );
+//   img
+//     .save()
+//     .then(doc => {
+//       console.log(doc);
+//       res.send(doc);
+//     })
+//     .catch(e => {
+//       res.status(400).send(e);
+//     });
+// });
+// end post chemin
 
-router.post("/uplo", function(req, res) {
-  upload(req, res, err => {
-    console.log("Request ---", req.body);
-    console.log("Request file ---", req.file); //Here you get file.
-    /*Now do where ever you want to do*/
-    console.log("Request ---", req.body.name);
-
-    if (err) return res.status(500).send(err);
-  });
-  let img = new ImageSchema(
-    {
-      image: req.body.image
-    },
-    { _id: false }
-  );
-  img
-    .save()
-    .then(doc => {
-      console.log(doc);
-      res.send(doc);
-    })
-    .catch(e => {
-      res.status(400).send(e);
-    });
-});
+// router.get("/g", (req, res) => {
+//   image
+//     .find()
+//     .then(src => {
+//       res.json({ src });
+//     })
+//     .catch(e => {
+//       res.status(400).send(e);
+//     });
+// });
 
 // router.put("/", function(req, res) {
 //   let id = req.body._id;
@@ -147,9 +148,6 @@ router.post("/uplo", function(req, res) {
 //       res.status(400).send(e);
 //     });
 // });
-
-module.exports = router;
-
 router.post("/avatar/:id", (req, res) => {
   let index = ObjectID(req.params.id);
   User.findOne({ _id: index }).then(user => {
@@ -159,7 +157,7 @@ router.post("/avatar/:id", (req, res) => {
       .save()
       .then(user => res.json(user))
       .catch(err => console.log(err));
-
-    console.log(user);
   });
 });
+
+module.exports = router;

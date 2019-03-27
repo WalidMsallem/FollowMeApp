@@ -18,7 +18,7 @@ class CreateProfile extends Component {
       website: "",
       location: "",
       status: "",
-
+      numero: "",
       bio: "",
       twitter: "",
       facebook: "",
@@ -48,7 +48,7 @@ class CreateProfile extends Component {
       website: this.state.website,
       location: this.state.location,
       status: this.state.status,
-
+      numero: this.state.numero,
       bio: this.state.bio,
       twitter: this.state.twitter,
       facebook: this.state.facebook,
@@ -157,6 +157,13 @@ class CreateProfile extends Component {
                   name="status"
                   value={this.state.status}
                   onChange={this.onChange}
+                  error={errors.status}
+                />
+                <InputGroup
+                  placeholder="numero de telphone"
+                  name="numero"
+                  type="number"
+                  value={this.state.numero}
                   onChange={this.onChange}
                   error={errors.status}
                 />

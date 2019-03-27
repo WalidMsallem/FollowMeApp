@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
 import ProfileCreds from "./ProfileCreds";
-
+import DashPostUser from "../posts/dashPostUser";
 import Spinner from "../common/Spinner";
 import { getProfileByHandle } from "../../actions/profileActions";
 
@@ -53,6 +53,7 @@ class Profile extends Component {
     return (
       <div className="profile">
         <div className="col-md-12">{profileContent}</div>
+        <DashPostUser />
       </div>
     );
   }
