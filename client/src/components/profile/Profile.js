@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
 import ProfileCreds from "./ProfileCreds";
-import ProfileGithub from "./ProfileGithub";
+
 import Spinner from "../common/Spinner";
 import { getProfileByHandle } from "../../actions/profileActions";
 
@@ -37,7 +37,6 @@ class Profile extends Component {
                 Back To Profiles
               </Link>
             </div>
-            <div className="col-md-6" />
           </div>
           <div style={{ display: "flex" }}>
             <ProfileHeader profile={profile} />
@@ -47,18 +46,13 @@ class Profile extends Component {
             education={profile.education}
             experience={profile.experience}
           />
-          {profile.githubusername ? (
-            <ProfileGithub username={profile.githubusername} />
-          ) : null}
         </div>
       );
     }
 
     return (
       <div className="profile">
-        <div className="row">
-          <div className="col-md-12">{profileContent}</div>
-        </div>
+        <div className="col-md-12">{profileContent}</div>
       </div>
     );
   }

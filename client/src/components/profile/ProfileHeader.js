@@ -1,59 +1,112 @@
 import React, { Component } from "react";
 import isEmpty from "../../validation/is-empty";
 import axios from "axios";
-
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedFile: null
-    };
-  }
-  onChangeHandler = event => {
+  state = {
+    event: {},
+    file: null,
+    loading: false,
+    src: []
+  };
+  componentDidMount() {}
+  onChangeImage = e => {
     this.setState({
-      selectedFile: event.target.files[0],
-      loaded: 0
+      file: e.target.files[0],
+      event: { ...this.state.event, image: e.target.files[0].name }
     });
   };
-  onClickHandler = () => {
-    const data = new FormData();
-    data.append("file", this.state.selectedFile);
-    axios
-      .post("/api/upload/avatar", data, {
-        // receive two    parameter endpoint url ,form data
-      })
-      .then(res => {
-        // then print response status
-        console.log(res.statusText);
+
+  handleAddevent = async () => {
+    const { event, file } = this.state;
+
+    const formData = new FormData();
+    formData.append("myImage", this.state.file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    };
+    if (file !== null) {
+      this.setState({
+        loading: true
       });
+      return axios
+        .post("/api/upload/up", formData, config)
+        .then(response => {
+          // alert("The file is successfullly uploadsd" , formData);
+          this.setState(
+            {
+              event: { ...event, image: response.data }
+            },
+            () => {
+              axios
+                .post(`/api/upload/avatar/${this.props.auth.user.id}`, {
+                  ...event,
+                  image: response.data
+                })
+                .then(res => {
+                  return this.setState({
+                    loading: false
+                  });
+                })
+                .catch(e => alert("error add event "));
+            }
+          );
+        })
+        .catch(error => {
+          alert("error image upload");
+        });
+    }
+    return this.setState({
+      error: true
+    });
   };
+
   render() {
     const { profile } = this.props;
 
     return (
-      <div className="row">
+      <div className="row" style={{ flex: 1 }}>
         <div className="col-md-12">
-          <div className="card card-body bg-info text-white mb-3">
-            <div className="row">
-              <div className="col-4 col-md-3 m-auto">
-                <img
-                  className="rounded-circle"
-                  src={profile.user.avatar}
-                  alt=""
-                />
-                <input
-                  type="file"
-                  name="file"
-                  onChange={this.onChangeHandler}
-                />
-                <button
-                  type="button"
-                  class="btn btn-success btn-block"
-                  onClick={this.onClickHandler}
-                >
-                  Upload
-                </button>
-              </div>
+          <div className="card card-body  text-white mb-3 bg-spec mg-15">
+            <div
+              className=" m-auto"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column"
+              }}
+            >
+              <img
+                style={{
+                  width: " 50% ",
+                  borderRadius: "40% 40%",
+                  minWidth: " 400px"
+                }}
+                src={`http://localhost:5000/${profile.user.avatar}`}
+                alt=""
+              />
+              <input
+                type="file"
+                name={this.state.event.name}
+                onChange={this.onChangeImage}
+                className="inputfile"
+              />
+
+              <button
+                onClick={this.handleAddevent}
+                style={{
+                  backgroundColor: "green",
+                  color: "white",
+                  width: "25%"
+                }}
+                variant="contained"
+              >
+                Changer votre avatar
+              </button>
             </div>
             <div className="text-center">
               <h1 className="display-4 text-center">{profile.user.name}</h1>
@@ -133,4 +186,11 @@ class ProfileHeader extends Component {
   }
 }
 
-export default ProfileHeader;
+ProfileHeader.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+export default connect(mapStateToProps)(ProfileHeader);

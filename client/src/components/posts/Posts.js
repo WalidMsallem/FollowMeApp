@@ -22,7 +22,7 @@ class Posts extends Component {
     }
 
     return (
-      <div className="feed liste-follows">
+      <div className="feed liste-follows full-screen">
         <div className="container">
           <div className="row">
             <div className="col-md-12">

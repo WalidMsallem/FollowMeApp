@@ -1,22 +1,42 @@
 img {
   width: 100%;
 }
+.full-screen {
+  min-height: 100vh;
+}
+.flex--1 {
+  flex: 1;
+}
 .btn-dang {
   background-color: transparent;
-  border: 1px solid red ;
-  color : red
-
+  border: 1px solid red;
+  color: red;
+}
+.bg-spec {
+  background-color: #09639275;
+}
+.mb-25 {
+  margin: 25px;
+}
+.mg-15 {
+  margin: 15px;
+}
+.bord-rad {
+  border-radius: 5px;
+}
+.profile h4 {
+  color: #d3aeae;
 }
 .liste-follows {
   padding: 20px 0;
   position: relative;
-  background: url("./img/back1.jpg") no-repeat;
+  background: url("./img/back4.jpeg") no-repeat;
   /* height: 700px; */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   display: flex;
 }
 

@@ -29,10 +29,3 @@ PostFeed.propTypes = {
 };
 
 export default connect(mapStateToProps)(PostFeed);
-// .filter(
-//   p =>
-//     p.text.toUpperCase().includes(search.toUpperCase()) ||
-//     p.title.toUpperCase().includes(search.toUpperCase())
-// )
-
-// posts.map(post => <PostItem key={post._id} post={post} />);
