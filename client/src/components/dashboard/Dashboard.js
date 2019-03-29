@@ -7,6 +7,7 @@ import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
 import Experience from "./Experience";
 import Education from "./Education";
+import DashPostUser from "../posts/dashPostUser";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -29,13 +30,20 @@ class Dashboard extends Component {
       // Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
-          <div>
-            <p className="lead text-muted">
-              Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
-            </p>
+          <div style={{ textAlign: " center", margin: "10px" }}>
+            <h1 className="lead text-muted">
+              Salut{" "}
+              <Link
+                to={`/profile/${profile.handle}`}
+                className="lead text-muted"
+              >
+                {user.name}
+              </Link>
+            </h1>
+            <br />
             <ProfileActions />
-            <Experience experience={profile.experience} />
-            <Education education={profile.education} />
+            <DashPostUser />
+
             <div style={{ marginBottom: "60px" }} />
             <button
               onClick={this.onDeleteClick.bind(this)}
@@ -48,11 +56,11 @@ class Dashboard extends Component {
       } else {
         // User is logged in but has no profile
         dashboardContent = (
-          <div>
+          <div className="center dis-flex " style={{ marginTop: "20%" }}>
             <p className="lead text-muted">Welcome {user.name}</p>
-            <p>You have not yet setup a profile, please add some info</p>
+            <p>Vous n'avez pas creez votre profile encore</p>
             <Link to="/create-profile" className="btn btn-lg btn-info">
-              Create Profile
+              Creez votre profile
             </Link>
           </div>
         );
@@ -60,13 +68,10 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className="dashboard full-screen">
-        <div className="container">
+      <div className="dashboard full-screen dash">
+        <div className="container dash-box">
           <div className="row">
-            <div className="col-md-12">
-              <h1 className="display-4">Dashboard</h1>
-              {dashboardContent}
-            </div>
+            <div className="col-md-12">{dashboardContent}</div>
           </div>
         </div>
       </div>

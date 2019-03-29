@@ -78,7 +78,7 @@ class CreateProfile extends Component {
         location: profile.location,
         numero: profile.numero,
         status: profile.status,
-        birthDay: profile.birthDay,
+        birthDay: profile.birthDay.slice(0, 10),
         bio: profile.bio,
         twitter: profile.twitter,
         facebook: profile.facebook,
@@ -173,8 +173,8 @@ class CreateProfile extends Component {
     // Select options for status
 
     return (
-      <div className="create-profile">
-        <div className="container">
+      <div className="create-profile dash">
+        <div className="container dash-box black-trans">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to="/dashboard" className="btn btn-light">

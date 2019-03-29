@@ -27,11 +27,11 @@ class Profiles extends Component {
     }
 
     return (
-      <div className="profiles full-screen ">
-        <div className="container">
+      <div className="profiles full-screen dash ">
+        <div className="container dash-box ">
           <div className="row">
             <div className="col-md-12">
-              <h1 className="display-4 text-center"> Follower Profiles</h1>
+              <h1 className="display-4 text-center bg"> Follower Profiles</h1>
 
               {profileItems}
             </div>

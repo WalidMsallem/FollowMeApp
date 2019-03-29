@@ -17,14 +17,23 @@ class ProfileAbout extends Component {
     // ));
 
     return (
-      <div className="row mg-15" style={{ flex: 1 }}>
+      <div
+        className="row mg-15 center"
+        style={{ flex: 1, backgroundColor: "#09639275" }}
+      >
         <div className="col-md-12">
           <div
-            className="card card-body bg-light mb-3"
-            style={{ display: "flex", flexDirection: "column", height: "90%" }}
+            className="card card-body  mb-3"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "90%",
+              backgroundColor: " #f8f9fa82"
+            }}
           >
-            <div style={{ flex: 1 }}>
-              <h3 className="text-center text-info">{firstName}'s Bio</h3>
+            <div style={{ backgroundColor: " #f8f9fa82" }}>
+              <h5 className="text-center text-info"> Bio</h5>
+              <hr />
               <p className="lead">
                 {isEmpty(profile.bio) ? (
                   <span>{firstName} bio</span>
@@ -32,15 +41,6 @@ class ProfileAbout extends Component {
                   <span>{profile.bio}</span>
                 )}
               </p>
-            </div>
-            <hr />
-            <div style={{ flex: 1 }}>
-              <h3 className="text-center text-info">competence</h3>
-              <div className="row">
-                {/* <div className="d-flex flex-wrap justify-content-center align-items-center">
-                  {skills}
-                </div> */}
-              </div>
             </div>
           </div>
         </div>

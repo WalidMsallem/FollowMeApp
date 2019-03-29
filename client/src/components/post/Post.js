@@ -30,7 +30,7 @@ class Post extends Component {
     }
 
     return (
-      <div className="post">
+      <div className="post liste-follows">
         <div className="container">
           <div className="row">
             <div className="col-md-12">

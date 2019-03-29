@@ -3,6 +3,7 @@ import isEmpty from "../../validation/is-empty";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { getCurrentProfile } from "../../actions/profileActions";
 class ProfileHeader extends Component {
   state = {
     event: {},
@@ -46,11 +47,15 @@ class ProfileHeader extends Component {
                   ...event,
                   image: response.data
                 })
-                .then(res => {
-                  return this.setState({
-                    loading: false
-                  });
-                })
+                // .then(res => {
+                //   return this.setState({
+                //     loading: false
+                //   });
+                // })
+
+                .then(res => this.props.getCurrentProfile())
+                // .then(res => this.getProfileByHandle(this.props.handle))
+
                 .catch(e => alert("error add event "));
             }
           );
@@ -70,14 +75,14 @@ class ProfileHeader extends Component {
     return (
       <div className="row" style={{ flex: 1 }}>
         <div className="col-md-12">
-          <div className="card card-body  text-white mb-3 bg-spec mg-15">
+          <div className="card card-body  text-white mb-3 bg-spec mg-15 center ">
             <div
               className=" m-auto"
               style={{
-                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flexDirection: "column"
+                flexDirection: "column",
+                display: "flex"
               }}
             >
               <img
@@ -89,24 +94,26 @@ class ProfileHeader extends Component {
                 src={`http://localhost:5000/${profile.user.avatar}`}
                 alt=""
               />
-              <input
-                type="file"
-                name={this.state.event.name}
-                onChange={this.onChangeImage}
-                className="inputfile"
-              />
+              <div style={{ display: "flex" }} class="upload-btn-wrapper">
+                <button class="btn">Upload a file</button>
+                <input
+                  type="file"
+                  name={this.state.event.name}
+                  onChange={this.onChangeImage}
+                  className="inputmyfile"
+                />
 
-              <button
-                onClick={this.handleAddevent}
-                style={{
-                  backgroundColor: "green",
-                  color: "white",
-                  width: "25%"
-                }}
-                variant="contained"
-              >
-                Changer votre avatar
-              </button>
+                <button
+                  onClick={this.handleAddevent}
+                  style={{
+                    color: "white",
+                    borderRadius: "7px"
+                  }}
+                  variant="contained"
+                >
+                  Changer votre avatar
+                </button>
+              </div>
             </div>
             <div className="text-center">
               <h1 className="display-4 text-center">{profile.user.name}</h1>
@@ -187,10 +194,15 @@ class ProfileHeader extends Component {
 }
 
 ProfileHeader.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
+  // getProfileByHandle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps)(ProfileHeader);
+export default connect(
+  mapStateToProps,
+  { getCurrentProfile }
+)(ProfileHeader);

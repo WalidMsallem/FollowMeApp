@@ -14,7 +14,7 @@ const styles = theme => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: "#fafad27d"
   },
   gridList: {
     flexWrap: "nowrap",

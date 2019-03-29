@@ -207,7 +207,7 @@ class PostItem extends Component {
                 type="button"
                 className="btn btn-dang"
               >
-                <i className="fas fa-times" />
+                Suprimer le Follow
               </button>
             ) : null}
           </div>
@@ -215,7 +215,7 @@ class PostItem extends Component {
         {/* <span className="text-center">{post.name}</span> */}
         <GridList tabImg={post.image} />
         <CardContent>
-          <Typography component="p">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             {showActions ? (
               <span>
                 <button
@@ -254,6 +254,7 @@ class PostItem extends Component {
                 </Link>
               </span>
             ) : null}
+
             {post.user === auth.user.id ? (
               <span>
                 <Button onClick={this.handleOpen} style={{ color: " green" }}>
@@ -296,7 +297,7 @@ class PostItem extends Component {
                 </Modal>
               </span>
             ) : null}
-          </Typography>
+          </div>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton aria-label="Add to favorites">

@@ -18,7 +18,8 @@ const styles = theme => ({
   card: {
     maxWidth: "100%",
     margin: 20,
-    backgroundColor: "#fafad27d"
+    backgroundColor: "#fafad27d",
+    textAlign: " left"
   },
   media: {
     height: 0,
@@ -71,35 +72,32 @@ class DashPostUser extends Component {
       <span>
         {post.createdPosts.map(el => (
           <Card className={classes.card}>
-            <div style={{ display: "flex", justifyContent: " space-Between" }}>
-              <Link to={`/profile/${post.name}`}>
-                {" "}
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label="Recipe" src={post.avatar}>
-                      W
-                    </Avatar>
-                  }
-                  title={post.title}
-                />{" "}
-              </Link>
-              {post.user === auth.user.id ? (
+            {/* style={{ display: "flex", justifyContent: " space-Between" }} */}
+            <div className="post-box-dash">
+              <div
+                style={{ display: " flex", justifyContent: "space-between" }}
+              >
+                <h4>{el.title}</h4>
                 <button
                   onClick={this.onDeleteClick.bind(this, post._id)}
                   type="button"
                   className="btn btn-dang"
                 >
-                  <i className="fas fa-times" />
+                  Suprimer le Follow
                 </button>
-              ) : null}
-              <Typography paragraph>{post.text}</Typography>
+              </div>
+              <p> {el.text}</p>
               liste des Participants :
-              {el.participer.map(par => (
-                <ul>
-                  <li> Nom : {par.user}</li>
-                  <li> numero : {par.numero}</li>
-                </ul>
-              ))}
+              {el.participer.length === 0 ? (
+                <span> aucun participant </span>
+              ) : (
+                el.participer.map(par => (
+                  <ul>
+                    <li> Nom : {par.handle}</li>
+                    <li> numero : {par.numero}</li>
+                  </ul>
+                ))
+              )}
             </div>
           </Card>
         ))}

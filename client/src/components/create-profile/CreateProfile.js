@@ -120,18 +120,10 @@ class CreateProfile extends Component {
       );
     }
 
-    // Select options for status
-    const options = [
-      { label: "* StatusProfessional", value: 0 },
-      { label: "Professionnel ", value: "Professionnel" },
-      { label: "Amateur", value: "Amateur" },
-      { label: "autre", value: "autre" }
-    ];
-
     return (
-      <div className="create-profile">
+      <div className="create-profile dash">
         <div className="container">
-          <div className="row">
+          <div className="row dash-box black-trans">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Creer votre profile</h1>
 

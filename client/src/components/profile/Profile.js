@@ -24,6 +24,7 @@ class Profile extends Component {
 
   render() {
     const { profile, loading } = this.props.profile;
+    console.log(this.props.match.params.handle);
     let profileContent;
 
     if (profile === null || loading) {
@@ -39,7 +40,10 @@ class Profile extends Component {
             </div>
           </div>
           <div style={{ display: "flex" }}>
-            <ProfileHeader profile={profile} />
+            <ProfileHeader
+              profile={profile}
+              handle={this.props.match.params.handle}
+            />
             <ProfileAbout profile={profile} />
           </div>
           <ProfileCreds
@@ -50,12 +54,7 @@ class Profile extends Component {
       );
     }
 
-    return (
-      <div className="profile">
-        <div className="col-md-12">{profileContent}</div>
-        <DashPostUser />
-      </div>
-    );
+    return <div className="Profile">{profileContent}</div>;
   }
 }
 

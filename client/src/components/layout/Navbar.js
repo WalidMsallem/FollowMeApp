@@ -28,22 +28,25 @@ class Navbar extends Component {
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
-            Dashboard
+            Profile
           </Link>
         </li>
         <li className="nav-item">
+          <img
+            className="rounded-circle"
+            src={`http://localhost:5000/${user.avatar}`}
+            alt={user.name}
+            style={{ width: "60px", marginRight: "5px" }}
+            title="You must have a Gravatar connected to your email to display an image"
+          />
+        </li>
+        <li>
           <a
             href=""
             onClick={this.onLogoutClick.bind(this)}
             className="nav-link"
           >
-            <img
-              className="rounded-circle"
-              src={`http://localhost:5000/${user.avatar}`}
-              alt={user.name}
-              style={{ width: "25px", marginRight: "5px" }}
-              title="You must have a Gravatar connected to your email to display an image"
-            />{" "}
+            {" "}
             Logout
           </a>
         </li>

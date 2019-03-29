@@ -39,7 +39,22 @@ img {
   /* align-items: center; */
   display: flex;
 }
-
+.dash {
+  padding: 20px 0;
+  position: relative;
+  background: url("./img/back5.jpg") no-repeat;
+  /* height: 700px; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  /* align-items: center;
+  display: flex; */
+}
+.dash-box {
+  background-color: #ffffffa3;
+  min-height: 750px;
+}
 .landing {
   position: relative;
   background: url("./img/back2.jpg") no-repeat;
@@ -103,4 +118,104 @@ img {
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+
+.post-box-dash {
+  padding: 20px;
+}
+
+.post-box-dash h4 {
+  color: brown;
+}
+.bg {
+  color: brown;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dis-flex {
+  flex-direction: column;
+}
+.post-box-dash ul {
+  list-style-type: none;
+  border: 1px solid white;
+  padding: 5px;
+}
+.profil-card {
+  max-width: 100%;
+  background-color: #fafad27d;
+  margin-bottom: 30px;
+  padding: 15px 0 0 10px;
+}
+.flex {
+  display: flex;
+}
+.test {
+  align-items: center;
+
+  justify-content: center;
+}
+
+.create-profile,
+.add-experience,
+.add-education input {
+  background-color: transparent;
+  color: white;
+}
+.create-profile,
+.add-experience,
+.add-education input:focus {
+  background-color: transparent;
+  color: white;
+}
+.create-profile,
+.add-experience,
+.add-education textarea {
+  background-color: transparent;
+  color: white;
+}
+.create-profile,
+.add-experience,
+.add-education textarea:focus {
+  background-color: transparent;
+  color: white;
+}
+
+.black-trans {
+  background-color: #21252961;
+}
+.create-profile,
+.add-education h1 {
+  color: white;
+}
+.Profile {
+  position: relative;
+  background: url("./img/back6.jpeg") no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
